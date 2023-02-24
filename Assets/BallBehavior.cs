@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BallBehavior : MonoBehaviour
 {
+    public static event System.Action OnBreakbleCollision; 
     public new Rigidbody2D rigidbody { get; private set; }
     public float speed = 10f;
 
@@ -46,6 +47,9 @@ public class BallBehavior : MonoBehaviour
    void OnCollisionEnter2D(Collision2D collision2D){
         if(collision2D.gameObject.CompareTag("platform")||collision2D.gameObject.CompareTag("breakable")){
             Instantiate(impactParticle,transform.position,Quaternion.identity);
+        }
+        if (collision2D.gameObject.CompareTag("breakable")){
+            OnBreakbleCollision?.Invoke();
         }
     }
 }
