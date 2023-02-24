@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class BallBehavior : MonoBehaviour
@@ -50,6 +51,9 @@ public class BallBehavior : MonoBehaviour
         }
         if (collision2D.gameObject.CompareTag("breakable")){
             OnBreakbleCollision?.Invoke();
+        }
+        if(collision2D.gameObject.CompareTag("lowercollider")){
+            SceneManager.LoadScene(0);
         }
     }
 }

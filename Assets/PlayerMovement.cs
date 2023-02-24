@@ -10,6 +10,9 @@ public new Rigidbody2D rigidbody { get; private set; }
     public float speed = 30f;
     public float maxBounceAngle = 75f;
 
+    [SerializeField]
+    private float xoffset;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -35,6 +38,9 @@ public new Rigidbody2D rigidbody { get; private set; }
         } else {
             direction = Vector2.zero;
         }
+
+        if(transform.position.x >= ScreenSize.ReturnHalfScreenWidth() - xoffset)transform.position = new Vector2(ScreenSize.ReturnHalfScreenWidth() - xoffset,transform.position.y);
+        else if(transform.position.x<= -ScreenSize.ReturnHalfScreenWidth() + xoffset)transform.position = new Vector2(-ScreenSize.ReturnHalfScreenWidth() + xoffset,transform.position.y);
     }
 
     private void FixedUpdate()
