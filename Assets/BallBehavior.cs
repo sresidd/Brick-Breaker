@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class BallBehavior : MonoBehaviour
 {
     public static event System.Action OnBreakbleCollision; 
     public new Rigidbody2D rigidbody { get; private set; }
     public float speed = 10f;
+    AudioSource Audio;
 
     [SerializeField] GameObject impactParticle;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        Audio = GetComponent<AudioSource> ();
+        
+    
     }
 
     private void Start()
     {
         // ResetBall();
         SetRandomTrajectory();
+        
     }
 
     public void ResetBall()
@@ -48,12 +54,17 @@ public class BallBehavior : MonoBehaviour
    void OnCollisionEnter2D(Collision2D collision2D){
         if(collision2D.gameObject.CompareTag("platform")||collision2D.gameObject.CompareTag("breakable")){
             Instantiate(impactParticle,transform.position,Quaternion.identity);
+              Audio.Play ();
         }
         if (collision2D.gameObject.CompareTag("breakable")){
+              Audio.Play ();
             OnBreakbleCollision?.Invoke();
         }
         if(collision2D.gameObject.CompareTag("lowercollider")){
+              Audio.Play ();
             SceneManager.LoadScene(0);
+
+          
         }
     }
 }
