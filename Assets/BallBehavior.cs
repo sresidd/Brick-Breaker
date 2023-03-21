@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +6,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BallBehavior : MonoBehaviour
 {
+    public Transform Powerup;
     public static event System.Action OnBreakbleCollision; 
     public new Rigidbody2D rigidbody { get; private set; }
     public float speed = 10f;
@@ -65,6 +65,19 @@ public class BallBehavior : MonoBehaviour
             SceneManager.LoadScene(0);
 
           
+        }
+        int randchance = Random.Range (1, 101);
+        if (randchance < 5)
+        {
+
+        }
+        void OnCollisionEnter(Collider2D other)
+        {
+            Destroy (other.gameObject);
+            if (other.CompareTag("Powerup1"));
+            {
+                Instantiate ( Powerup, other.transform.position, other.transform.rotation);
+            }
         }
     }
 }

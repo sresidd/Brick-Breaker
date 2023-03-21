@@ -69,6 +69,9 @@ public new Rigidbody2D rigidbody { get; private set; }
             Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
             ball.rigidbody.velocity = rotation * Vector2.up * ball.rigidbody.velocity.magnitude;
         }
+
+
+        
     }
 
 }

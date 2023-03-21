@@ -1,34 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-
+[RequireComponent(typeof(BoxCollider2D))]
 public class BreakableBehavior : MonoBehaviour
+
 {
-    [SerializeField] TMP_Text countTxt;
-    private int counter = 3;
+    
+    public SpriteRenderer spriteRenderer { get; private set; }
+    public Sprite[] states = new Sprite[0];
+    public int health { get; private set; }
+    public int points = 1;
+    public bool unbreakable;
 
-    SpriteRenderer spriteRenderer;
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        // GenerateRandomColor();
-        countTxt.text = counter.ToString();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        spriteRenderer.color = Color.red;
-
     }
 
-    private void GenerateRandomColor()
+
+    void Start()
+    {{
+        ResetBrick();
+    }
+
+     void ResetBrick()
     {
-        // float red = Random.Range(0f,1f);
-        // float blue = Random.Range(0f,1f);
-        // float green = Random.Range(0f,1f);
-        // GetComponent<SpriteRenderer>().color = new Color(red,blue,green,1);
+        gameObject.SetActive(true);
+
+        if (!unbreakable)
+        {
+           
+            health = states.Length;
+            spriteRenderer.sprite = states[health - 1];
+        }
     }
 
-    // Update is called once per frame
+    }
+
+   
+
     void Update()
     {
         
@@ -36,23 +44,15 @@ public class BreakableBehavior : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.CompareTag("ball")){
-            counter--;
-            countTxt.text = counter.ToString();
-
-            switch(counter){
-                case 2: spriteRenderer.color = Color.green;
-                break;
-
-                case 1:
-                spriteRenderer.color = Color.blue;
-                break;
-
-                case 0: Destroy(this.gameObject);
-                break;
-            }
-            // if(counter<1)Destroy(this.gameObject);
-            // // Destroy(this.gameObject);
+        if(col.gameObject.CompareTag("ball")||!unbreakable)
+        
+        {
+          health --;
+          if (health<1) Destroy(this.gameObject);
+          else
+          {
+            spriteRenderer.sprite= states [health - 1];         
+          }
         }
     }
 }
