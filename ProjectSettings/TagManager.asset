@@ -8,7 +8,9 @@ TagManager:
   - ball
   - breakable
   - lowercollider
-  - Powerup1
+  - powerup2
+  - powerup3
+  - powerup1
   layers:
   - Default
   - TransparentFX

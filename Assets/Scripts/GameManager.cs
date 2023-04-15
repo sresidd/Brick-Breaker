@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     {
         scoreText.text = "score: "+ score;
         // BallBehavior.OnBreakbleCollision += UpdateScore;
-         BallBehavior.OnBreakbleCollision += IncrementScore;
+        GameEvents.current.OnBreakableCollision += IncrementScore;
          highScore = PlayerPrefs.GetInt(highScoreKey, 0);
         highScoreText.text = highScore.ToString();
     }

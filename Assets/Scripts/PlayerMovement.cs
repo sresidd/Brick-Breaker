@@ -1,17 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-public new Rigidbody2D rigidbody { get; private set; }
+
+    public new Rigidbody2D rigidbody { get; private set; }
     public Vector2 direction { get; private set; }
     public float speed = 30f;
-    public float maxBounceAngle = 75f;
 
-    [SerializeField]
-    private float xoffset;
+    private bool changeBoard = false;
+
+
+    [SerializeField] private float lerpSpeed = 2f;
+    private float lerpTime = 0f;
+
+    private Vector2 finalScale;
+    private Vector2 initialScale;
+
+    [SerializeField] private float XScale = 5f;
+
+    [SerializeField] private float xoffset;
 
     private void Awake()
     {
@@ -21,6 +30,14 @@ public new Rigidbody2D rigidbody { get; private set; }
     private void Start()
     {
         ResetPaddle();
+        GameEvents.current.OnBoardPowerUp += ChangeBoard;
+        finalScale = new Vector2(XScale,transform.localScale.y);
+        initialScale = transform.localScale;
+    }
+
+    private void ChangeBoard(bool changeBoard)
+    {
+        this.changeBoard = changeBoard;
     }
 
     public void ResetPaddle()
@@ -41,6 +58,22 @@ public new Rigidbody2D rigidbody { get; private set; }
 
         if(transform.position.x >= ScreenSize.ReturnHalfScreenWidth() - xoffset)transform.position = new Vector2(ScreenSize.ReturnHalfScreenWidth() - xoffset,transform.position.y);
         else if(transform.position.x<= -ScreenSize.ReturnHalfScreenWidth() + xoffset)transform.position = new Vector2(-ScreenSize.ReturnHalfScreenWidth() + xoffset,transform.position.y);
+
+        if(changeBoard){
+            lerpTime += Time.deltaTime;
+            float percentCompleted = lerpTime/lerpSpeed;
+            Vector2.Lerp(transform.localScale, finalScale, percentCompleted);
+
+            if((Vector2)transform.localScale == finalScale) lerpTime = 0;
+        }
+
+        else if(!changeBoard){
+            lerpTime += Time.deltaTime;
+            float percentCompleted = lerpTime/lerpSpeed;
+            Vector2.Lerp(transform.localScale, initialScale, percentCompleted);
+
+            if((Vector2)transform.localScale == initialScale) lerpTime = 0;
+        }
     }
 
     private void FixedUpdate()
@@ -50,28 +83,8 @@ public new Rigidbody2D rigidbody { get; private set; }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        BallBehavior ball = collision.gameObject.GetComponent<BallBehavior>();
-
-        if (ball != null)
-        {
-            Vector2 paddlePosition = transform.position;
-            Vector2 contactPoint = collision.GetContact(0).point;
-
-            float offset = paddlePosition.x - contactPoint.x;
-            float maxOffset = collision.otherCollider.bounds.size.x / 2;
-
-            float currentAngle = Vector2.SignedAngle(Vector2.up, ball.rigidbody.velocity);
-            float bounceAngle = (offset / maxOffset) * maxBounceAngle;
-            float newAngle = Mathf.Clamp(currentAngle + bounceAngle, -maxBounceAngle, maxBounceAngle);
-
-            Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
-            ball.rigidbody.velocity = rotation * Vector2.up * ball.rigidbody.velocity.magnitude;
-        }
-
-
-        
+    private void OnDestroy(){
+        GameEvents.current.OnBoardPowerUp -= ChangeBoard;
     }
 
 }
