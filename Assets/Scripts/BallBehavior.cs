@@ -8,7 +8,7 @@ public class BallBehavior : MonoBehaviour
 {
 
     public new Rigidbody2D rigidbody { get; private set; }
-    public Vector2 speed;
+    public static Vector2 speed;
     public float currentSpeed;
     AudioSource Audio;
 
@@ -16,6 +16,8 @@ public class BallBehavior : MonoBehaviour
         TimeBased,
         CollisionBased
     }
+
+    [SerializeField] private float speedIncrementor = .1f;
 
     [SerializeField] private DifficultyType difficultyType;
 
@@ -45,6 +47,13 @@ public class BallBehavior : MonoBehaviour
 
         SetRandomTrajectory();
         GameEvents.current.OnColliderPowerUp += ColliderPowerUP;
+        GameEvents.current.OnGameOver += Disable;
+    }
+
+    private void Disable()
+    {
+        rigidbody.bodyType = RigidbodyType2D.Static;
+        this.enabled = false;
     }
 
     private void ColliderPowerUP(bool canCollide)
@@ -86,14 +95,14 @@ public class BallBehavior : MonoBehaviour
               Audio.Play ();
         }
         if (collision2D.gameObject.CompareTag("breakable")){
-        switch (difficultyType)
-        {
-            case DifficultyType.CollisionBased:
-                currentSpeed += .5f;
-                break;
-        }
+            switch (difficultyType)
+            {
+                case DifficultyType.CollisionBased:
+                    currentSpeed += speedIncrementor;
+                    break;
+            }
 
-              Audio.Play ();
+            Audio.Play ();
             GameEvents.current.BreakableCollision();
             int randchance = Random.Range (1, 11);
             if (randchance < 4)
@@ -102,8 +111,10 @@ public class BallBehavior : MonoBehaviour
             }
         }
         if(collision2D.gameObject.CompareTag("lowercollider") && !canCollide){
-              Audio.Play ();
-            SceneManager.LoadScene(0);
+            Audio.Play ();
+            Destroy(this.gameObject);
+            BallManager.ballCount--;
+            if(BallManager.ballCount<1)SceneManager.LoadScene(0);
         }
     }
 

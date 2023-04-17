@@ -47,12 +47,16 @@ public class BreakableBehavior : MonoBehaviour
         if(col.gameObject.CompareTag("ball")||!unbreakable)
         
         {
-          health --;
-          if (health<1) Destroy(this.gameObject);
-          else
-          {
-            spriteRenderer.sprite= states [health - 1];         
-          }
+            health --;
+            if (health<1){
+                GameEvents.current.BreakableDestroyed();
+                Destroy(this.gameObject);
+            }
+
+            else
+            {
+                spriteRenderer.sprite= states [health - 1];         
+            }
         }
     }
 }

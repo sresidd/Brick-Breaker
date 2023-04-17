@@ -33,6 +33,7 @@ public class PowerUpManager : MonoBehaviour
             break;
 
             case 3:
+            GameEvents.current.BallPowerUp();
             break;
         }
     }

@@ -1,44 +1,46 @@
-
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-     public TMP_Text highScoreText;
+    [SerializeField] private Transform breakableParent;
 
-    int highScore;
+    private int highScore;
     public int score;
     public TMP_Text scoreText;
+    public TMP_Text highScoreText;
 
-    string highScoreKey = "HighScore";
+    private string highScoreKey = "HighScore";
 
-          private void IncrementScore()
+    private void IncrementScore()
     {
         score++;
         scoreText.text = scoreText.ToString();
-
-
-
     }
-
-
 
     // Start is called before the first frame update
     void Start()
     {
         scoreText.text = "score: "+ score;
         // BallBehavior.OnBreakbleCollision += UpdateScore;
-        GameEvents.current.OnBreakableCollision += IncrementScore;
-         highScore = PlayerPrefs.GetInt(highScoreKey, 0);
+        
+        highScore = PlayerPrefs.GetInt(highScoreKey, 0);
         highScoreText.text = highScore.ToString();
+
+        GameEvents.current.OnBreakableCollision += IncrementScore;
+        GameEvents.current.OnBreakableDestroyed += CheckBreakableCount;
     }
 
+    private void CheckBreakableCount()
+    {
+        if(breakableParent.childCount < 2){
+            GameEvents.current.GameOver();
+        }
+    }
 
-    // Update is called once per frame
     void Update()
     {
-        
         scoreText.text = score.ToString();
         if (score > highScore)
         {
@@ -48,9 +50,19 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
-    public void UpdateScore()
+
+    public void Restart()
     {
-        score ++;
-        scoreText.text = "score: "+ score;
+        SceneManager.LoadScene(GetBuildIndex());
     }
+
+    public void Next(){
+        SceneManager.LoadScene(GetBuildIndex() + 1);
+    }
+
+    private int GetBuildIndex()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
+    }
+
 }
