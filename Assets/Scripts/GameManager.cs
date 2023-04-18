@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform breakableParent;
+    [SerializeField] private GameObject levelText;
 
     private int highScore;
     public int score;
@@ -19,22 +21,29 @@ public class GameManager : MonoBehaviour
         scoreText.text = scoreText.ToString();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         scoreText.text = "score: "+ score;
-        // BallBehavior.OnBreakbleCollision += UpdateScore;
         
         highScore = PlayerPrefs.GetInt(highScoreKey, 0);
         highScoreText.text = highScore.ToString();
 
         GameEvents.current.OnBreakableCollision += IncrementScore;
         GameEvents.current.OnBreakableDestroyed += CheckBreakableCount;
+
+        levelText.SetActive(true);
+        Invoke(nameof(SetLevelTextInactive),1f);
+    }
+
+    private void SetLevelTextInactive()
+    {
+        levelText.SetActive(false);
     }
 
     private void CheckBreakableCount()
     {
         if(breakableParent.childCount < 2){
+            PlayerPrefs.SetInt("levelIndex",SceneManager.GetActiveScene().buildIndex);
             GameEvents.current.GameOver();
         }
     }

@@ -95,6 +95,8 @@ public class BallBehavior : MonoBehaviour
               Audio.Play ();
         }
         if (collision2D.gameObject.CompareTag("breakable")){
+
+            GameEvents.current.CameraShake();
             switch (difficultyType)
             {
                 case DifficultyType.CollisionBased:

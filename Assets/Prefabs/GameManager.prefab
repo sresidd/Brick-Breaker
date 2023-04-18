@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1430173906997173367}
   - component: {fileID: 1430173906997173366}
   - component: {fileID: 1430173906997173365}
+  - component: {fileID: 5569661846603959686}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   breakableParent: {fileID: 0}
+  levelText: {fileID: 0}
   score: 0
   scoreText: {fileID: 0}
   highScoreText: {fileID: 0}
@@ -95,3 +97,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 1455906433, guid: 2e1b9c4ced335e14fa027c28eb5c8c02, type: 3}
+--- !u!114 &5569661846603959686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430173906997173362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7715f5c55bd6144a2c3fa9af04aff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  duration: 0.5
+  strength: 0.1
+  vibration: 20
+  randomness: 90
+  snapping: 0
+  fadeout: 1

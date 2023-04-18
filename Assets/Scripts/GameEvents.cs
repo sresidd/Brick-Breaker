@@ -18,6 +18,7 @@ public class GameEvents : MonoBehaviour
     public event Action OnBallPowerUp;
     public event Action OnBreakableDestroyed;
     public event Action OnGameOver;
+    public event Action OnCameraShake;
 
     //Methods
     public void ColliderPowerUp(bool isCollided) => OnColliderPowerUp?.Invoke(isCollided);
@@ -28,4 +29,5 @@ public class GameEvents : MonoBehaviour
     public void BallPowerUp() => OnBallPowerUp?.Invoke();
     public void BreakableDestroyed() => OnBreakableDestroyed?.Invoke();
     public void GameOver() => OnGameOver?.Invoke();
+    public void CameraShake() => OnCameraShake?.Invoke();
 }

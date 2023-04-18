@@ -3687,6 +3687,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1430173906997173361, guid: 73c9a744e097d3346bc2ed4eace3c26f, type: 3}
+      propertyPath: levelText
+      value: 
+      objectReference: {fileID: 2593254012310502236}
+    - target: {fileID: 1430173906997173361, guid: 73c9a744e097d3346bc2ed4eace3c26f, type: 3}
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 1691052046}
@@ -3702,6 +3706,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5569661846603959686, guid: 73c9a744e097d3346bc2ed4eace3c26f, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 963194227}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73c9a744e097d3346bc2ed4eace3c26f, type: 3}
 --- !u!1001 &2593254012310502235
@@ -3811,8 +3819,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1322190570}
+    - target: {fileID: 5206052714430001061, guid: d075c5c924627794bbce3d26681322e5, type: 3}
+      propertyPath: m_Name
+      value: LevelTxt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6114067260100512911, guid: d075c5c924627794bbce3d26681322e5, type: 3}
+      propertyPath: m_text
+      value: Level 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d075c5c924627794bbce3d26681322e5, type: 3}
+--- !u!1 &2593254012310502236 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5206052714430001061, guid: d075c5c924627794bbce3d26681322e5, type: 3}
+  m_PrefabInstance: {fileID: 2593254012310502235}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5112579365810836758
 PrefabInstance:
   m_ObjectHideFlags: 0
