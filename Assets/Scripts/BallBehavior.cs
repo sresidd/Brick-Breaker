@@ -116,7 +116,7 @@ public class BallBehavior : MonoBehaviour
             Audio.Play ();
             Destroy(this.gameObject);
             BallManager.ballCount--;
-            // if(BallManager.ballCount<1)SceneManager.LoadScene(0);
+            if(BallManager.ballCount<1)SceneManager.LoadScene(0);
         }
     }
 
