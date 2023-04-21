@@ -38,5 +38,9 @@ public class PlayerCollision : MonoBehaviour
             GameEvents.current.PowerUp(3);
             Destroy(collider2D.gameObject);
         }
+         else if(collider2D.CompareTag("powerup4")){
+            GameEvents.current.PowerUp(4);
+            Destroy(collider2D.gameObject);
+        }
     }
 }
