@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class PowerUpManager : MonoBehaviour
 {
-    private bool IsSlowedDown = false;
-
-    private Coroutine c_timer; 
 
     [SerializeField] private GameObject[] powerUps;
     [SerializeField] private float[] powerUpDuration;
@@ -62,43 +59,4 @@ public class PowerUpManager : MonoBehaviour
     private void OnDisable(){
         GameEvents.current.OnBreakableColl -= InstantiatePowerUp;
     }
-    public void SlowDow(){
-        if(IsSlowedDown)
-        {
-            IsSlowedDown = false;
-            if(c_timer != null)StopCoroutine(c_timer);
-            c_timer = StartCoroutine(ScaleTime(.2f, 1f, 3f));
-        }
-
-        else if(!IsSlowedDown)
-        {
-            IsSlowedDown = true;
-            if(c_timer != null)StopCoroutine(c_timer);
-            c_timer = StartCoroutine(ScaleTime(1f, .2f, 3f));
-        }
-    }
-
-    public static IEnumerator ScaleTime(float start, float end, float time)
-    {
-        float lastTime = Time.realtimeSinceStartup;
-        float timer = 0.0f;
-
-        while (timer < time)
-        {
-            Time.timeScale = Mathf.Lerp(start, end, timer / time);
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
-            timer += (Time.realtimeSinceStartup - lastTime);
-            lastTime = Time.realtimeSinceStartup;
-            yield return null;
-        }
-        Time.timeScale = end;
-        Time.fixedDeltaTime = Time.timeScale * 0.02f;
-    }
-
-    public void UpdateTimeScale(float timeScale){
-        Time.timeScale = timeScale;
-        Time.fixedDeltaTime = Time.timeScale * 0.02f;
-    }
-
-    public void quit() => Application.Quit();
 }
